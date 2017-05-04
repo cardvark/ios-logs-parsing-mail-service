@@ -6,10 +6,9 @@ inbound_services:
 - mail
 
 handlers:
-  - url: /_ah/mail/.+
+- url: /_ah/mail/.+
   script: main.app
   login: admin
 
-  - url: /.*
-    static_files: index.html
-    upload: index.html
+- url: /.*
+  script: not_found.app
