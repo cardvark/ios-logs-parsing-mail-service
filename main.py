@@ -6,9 +6,13 @@ from google.appengine.api import taskqueue
 
 class IncomingMailHandler(InboundMailHandler):
     def receive(self, mail_message):
-        logging.info('Receied a message')
+        logging.info('Received a message')
         logging.info('from: ' + mail_message.sender)
         logging.info(mail_message)
+        if hasattr(mail_message, 'attachments'):
+            for filename, content in mail_message.attachments:
+                logging.info(filename)
+                logging.info(content.decode())
 
 
 
