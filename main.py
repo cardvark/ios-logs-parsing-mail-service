@@ -9,10 +9,16 @@ class IncomingMailHandler(InboundMailHandler):
         logging.info('Received a message')
         logging.info('from: ' + mail_message.sender)
         logging.info(mail_message)
+
+        incoming_subject = mail_message.subject
+        incoming_sender = mail_message.sender
+
         if hasattr(mail_message, 'attachments'):
             for filename, content in mail_message.attachments:
                 logging.info(filename)
                 logging.info(content.decode())
+
+
 
 
 

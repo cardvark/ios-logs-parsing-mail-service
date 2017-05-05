@@ -6,8 +6,11 @@ inbound_services:
 - mail
 
 handlers:
-- url: /_ah/mail/.+
+- url: /_ah/mail/log_parsing@ios-logs-email\.appspotmail\.com
   script: main.app
+
+- url: /_ah/mail/.+
+  script: bounce_handler.app
   login: admin
 
 - url: /.*
