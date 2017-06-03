@@ -32,7 +32,7 @@ def line_to_dict(line):
         start_pos = line.find(event + ' = ') + len(event + ' = ')
         end_pos = line.find(';', start_pos)
         event_val = line[start_pos:end_pos].strip()
-        if event_val != '(null)':
+        if event != 'value' or event_val != '(null)':
             line_dict[event] = event_val
 
 
