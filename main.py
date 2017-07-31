@@ -1,5 +1,6 @@
 import logging
 import eventparse
+import gzip
 
 from google.appengine.ext.webapp.mail_handlers import InboundMailHandler
 from google.appengine.api import mail
@@ -21,10 +22,14 @@ class IncomingMailHandler(InboundMailHandler):
 
         if hasattr(mail_message, 'attachments'):
             for filename, content in mail_message.attachments:
-                incoming_filename = filename
-                incoming_content = content.decode()
-                logging.info(filename)
-                logging.info(content.decode())
+                if 'txt.gz' in filename:
+                    with gzip.open(content, 'rb') as f:
+                        content = f.read()
+
+                    incoming_filename = filename
+                    incoming_content = content.decode()
+                    logging.info(filename)
+                    logging.info(content.decode())
 
             return_body = eventparse.parse_events(incoming_content)
             logging.info(return_body)
