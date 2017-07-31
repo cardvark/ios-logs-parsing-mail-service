@@ -23,13 +23,14 @@ class IncomingMailHandler(InboundMailHandler):
         if hasattr(mail_message, 'attachments'):
             for filename, content in mail_message.attachments:
                 if 'txt.gz' in filename:
-                    with gzip.open(content, 'rb') as f:
-                        content = f.read()
-
                     incoming_filename = filename
                     incoming_content = content.decode()
                     logging.info(filename)
-                    logging.info(content.decode())
+
+
+                    with gzip.open(incoming_content, 'rb') as f:
+                        incoming_content = f.read()
+                    logging.info(incoming_content)
 
             return_body = eventparse.parse_events(incoming_content)
             logging.info(return_body)
