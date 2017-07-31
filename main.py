@@ -1,6 +1,6 @@
 import logging
 import eventparse
-import gzip
+import zlib
 
 from google.appengine.ext.webapp.mail_handlers import InboundMailHandler
 from google.appengine.api import mail
@@ -27,9 +27,9 @@ class IncomingMailHandler(InboundMailHandler):
                     incoming_content = content.decode()
                     logging.info(filename)
 
-
-                    with gzip.open(incoming_content, 'rb') as f:
-                        incoming_content = f.read()
+                    incoming_content = zlib.decompress(incoming_content, 16+zlib.MAX_WBITS)
+                    # with gzip.open(incoming_content, 'rb') as f:
+                    #     incoming_content = f.read()
                     logging.info(incoming_content)
 
             return_body = eventparse.parse_events(incoming_content)
